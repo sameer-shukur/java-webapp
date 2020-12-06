@@ -1,8 +1,8 @@
-@Library('shared-library@main')_
+@Library('shared-library')_
 pipeline
 {
       dockerImageName= 'sameershukur/java-webapp:$BUILD_NUMBER'
       gitURL = 'https://github.com/sameer-shukur/java-webapp'
-	  repoBranch = 'master'
+	  repoBranch = 'main'
 	  mavenGoals = 'package'
 }
