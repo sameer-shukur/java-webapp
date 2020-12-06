@@ -19,7 +19,7 @@ def call(body)
 		print(manager.getResult())
 		stage('SCM Checkout')
 		{
-		checkout scm
+		git branch: 'main', credentialsId: 'GitCreds', url: 'https://github.com/sameer-shukur/java-webapp.git' 
 	//	echo "${current_stage}"
 		} //End of checkout stage
   
