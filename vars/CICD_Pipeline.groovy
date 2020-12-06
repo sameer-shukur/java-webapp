@@ -81,8 +81,7 @@ def call(body)
   } //End of try node
   catch (Exception err)
     {
-        failed_stage = "${current_stage}"
-        echo "Build failed at ${failed_stage}"
+        echo "Build failed at ${current_stage}"
         currentBuild.result = 'FAILURE'
         echo "Error Caught"
     }
