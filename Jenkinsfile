@@ -1,4 +1,4 @@
-@Library('shared-library')_
+@Library('shared-library@main')_
 pipeline
 {
       dockerImageName= 'sameershukur/java-webapp:$BUILD_NUMBER'
