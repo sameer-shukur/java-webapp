@@ -1,21 +1,22 @@
 def call(body)
 {
-	  def gitURL = config.gitURL
-	  def repoBranch = config.repoBranch
-      def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
-	  
-      stage('SCM Checkout'){
-         gitClone "${gitURL}","${repoBranch}"
-      }
-      stage('Build'){
-         docker.image('sameershukur/maven-3.6.3:v1')
-		 {
-			sh """
-			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
-			mvn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
-			"""
-		 }
-      }       
+  def gitURL = config.gitURL
+  def repoBranch = config.repoBranch
+  def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
+	
+stage('SCM Checkout'){
+gitClone "${gitURL}","${repoBranch}"
+}
+  
+stage('Build'){
+docker.image('sameershukur/maven-3.6.3:v1')
+{
+sh """
+export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
+mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
+"""
+	}
+}       
      
      stage ('Test'){
           docker.image('sameershukur/maven-3.6.3:v1')  
