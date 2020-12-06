@@ -1,5 +1,12 @@
+import java.text.SimpleDateFormat
+import hudson.tasks.text.AbstractTestResultAction
+import hudson.model.Actionable
 def call(body)
 {
+  def config = [:]
+  body.resolveStrategy = Closure.DELEGATE_FIRST
+  body.delegate = config
+  body()
   def gitURL = config.gitURL
   def repoBranch = config.repoBranch
   def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
