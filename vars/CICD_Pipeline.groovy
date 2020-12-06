@@ -30,8 +30,8 @@ def call(body)
 		}
 	}       
      
-     stage ('Test'){
-          docker.image('sameershukur/maven-3.6.3:v1')  
+     	stage ('Test'){
+          	docker.image('sameershukur/maven-3.6.3:v1')  
 		  {
 			sh """
 			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
@@ -39,18 +39,18 @@ def call(body)
 			sleep 3
 			"""
 		  }
-     }
-      
-     stage('Build Docker Image'){         
-           sh "docker build -t ${dockerImageName} ."
-     }  
-   
-     stage('Publish Docker Image'){
-     withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerPWD')]) {
-           sh "docker login -u sameershukur -p ${dockerPWD}"
      	}
-     	   sh "docker push ${dockerImageName}"
-      }
+      
+     	stage('Build Docker Image'){         
+           	sh "docker build -t ${dockerImageName} ."
+     	}  
+   
+     	stage('Publish Docker Image'){
+     		withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerPWD')]) {
+           	sh "docker login -u sameershukur -p ${dockerPWD}"
+     		}
+     	   	sh "docker push ${dockerImageName}"
+      	}
 /*      
     stage('Run Docker Image'){
             def dockerContainerName = 'javadockerapp_$BUILD_NUMBER'
@@ -66,4 +66,5 @@ def call(body)
             }
       }  
 */         
-  }
+  } //End of try node
+} //End of body
