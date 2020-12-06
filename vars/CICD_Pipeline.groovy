@@ -10,7 +10,7 @@ def call(body)
   def repoBranch = config.repoBranch
   def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
   def failed_stage = 'NONE'
-  def current_stage = getCurrentStageName()
+  def current_stage = env.STAGE_NAME
   try
   {
    	node('master')
