@@ -1,19 +1,32 @@
 def call(body)
 {
-      def dockerImageName= 'sameershukur/java-webapp:$BUILD_NUMBER'
+	  def gitURL = config.gitURL
+	  def repoBranch = config.repoBranch
+      def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
+	  
       stage('SCM Checkout'){
-         git 'https://github.com/sameer-shukur/java-webapp'
+         gitClone "${gitURL}","${repoBranch}"
       }
       stage('Build'){
-         // Get maven home path and build
-         def mvnHome =  tool name: 'Maven 3.5.4', type: 'maven'   
-         sh "${mvnHome}/bin/mvn package -Dmaven.test.skip=true"
+         docker.image('sameershukur/maven-3.6.3:v1')
+		 {
+			sh """
+			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
+			mvn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
+			"""
+		 }
       }       
      
      stage ('Test'){
-         def mvnHome =  tool name: 'Maven 3.5.4', type: 'maven'    
-         sh "${mvnHome}/bin/mvn verify; sleep 3"
-      }
+          docker.image('sameershukur/maven-3.6.3:v1')  
+		  {
+			sh """
+			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
+			mvn verify
+			sleep 3
+			"""
+		  }
+	}
       
      stage('Build Docker Image'){         
            sh "docker build -t ${dockerImageName} ."
@@ -42,4 +55,3 @@ def call(body)
       }  
          
   }
-      
