@@ -13,7 +13,6 @@ def call(body)
     docker.image("${dockerBuildImageName}"){
         sh """
         export MAVEN_OPTS=${maven_opts}
-        export JAVA_OPTS=${java_opts}
         mvn ${mavenGoals} -f ${WORKSPACE}/${pomLocationName} -Dmaven.test.skip=true
         """
     }
