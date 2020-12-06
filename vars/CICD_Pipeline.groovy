@@ -20,7 +20,7 @@ def call(body)
 		stage('SCM Checkout')
 		{
 		gitClone "${gitURL}","${repoBranch}"
-		echo "${current_stage}"
+	//	echo "${current_stage}"
 		} //End of checkout stage
   
 		stage('Build')
@@ -32,7 +32,7 @@ def call(body)
 			mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
 			"""
 			}
-			echo "${current_stage} is SUCCESS!"
+		//	echo "${current_stage} is SUCCESS!"
 		  }   //End of build stage    
      
      		stage ('Test')
@@ -45,13 +45,13 @@ def call(body)
 			sleep 3
 			"""
 		  	}
-			echo "${current_stage} is SUCCESS!"
+		//	echo "${current_stage} is SUCCESS!"
 		  } //End of test stage
       
 		stage('Build Docker Image')
 		  {         
 			sh "docker build -t ${dockerImageName} ."
-		  	echo "${current_stage} is SUCCESS!"
+		//  	echo "${current_stage} is SUCCESS!"
 		  }  //End of Build docker image
    
 		stage('Publish Docker Image')
@@ -60,7 +60,7 @@ def call(body)
 			sh "docker login -u sameershukur -p ${dockerPWD}" 
 			}
 			sh "docker push ${dockerImageName}" 
-			echo "${current_stage} is SUCCESS!"
+		//	echo "${current_stage} is SUCCESS!"
 		  } //End of publish docker image
 		/*      
 		    stage('Run Docker Image'){
