@@ -14,11 +14,11 @@ def call(body)
         GET_BUILD_USER = sh ( script: 'echo "${BUILD_USER}"', returnStdout: true).trim()
     }
     echo "${mavenGoals}"
-    docker.image("${dockerBuildImageName}").inside('-v /app/maven:/app/maven --net=host'){
+    docker.image("${dockerBuildImageName}"){
         sh """
         export MAVEN_OPTS=${maven_opts}
         export JAVA_OPTS=${java_opts}
-        mvn -s ${WORKSPACE}/settings.xml ${mavenGoals} -f ${WORKSPACE}/${pomLocationName}
+        mvn ${mavenGoals} -f ${WORKSPACE}/${pomLocationName} -Dmaven.test.skip=true
         """
     }
 }
