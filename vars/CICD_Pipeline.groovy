@@ -19,7 +19,7 @@ def call(body)
 		print(manager.getResult())
 		stage('SCM Checkout')
 		{
-		gitClone "${gitURL}","${repoBranch}"
+		checkout scm
 	//	echo "${current_stage}"
 		} //End of checkout stage
   
