@@ -9,20 +9,26 @@ def call(body)
   def gitURL = config.gitURL
   def repoBranch = config.repoBranch
   def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
+  try
+  {
+   	node('master')
+	print(manager.getResult())
 	
-stage('SCM Checkout'){
-gitClone "${gitURL}","${repoBranch}"
-}
-  
-stage('Build'){
-docker.image('sameershukur/maven-3.6.3:v1')
-{
-sh """
-export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
-mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
-"""
+	stage('SCM Checkout')
+	{
+		gitClone "${gitURL}","${repoBranch}"
 	}
-}       
+  
+	stage('Build')
+	{
+		docker.image('sameershukur/maven-3.6.3:v1')
+		{
+			sh """
+			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
+			mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
+			"""
+		}
+	}       
      
      stage ('Test'){
           docker.image('sameershukur/maven-3.6.3:v1')  
@@ -33,17 +39,17 @@ mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
 			sleep 3
 			"""
 		  }
-	}
+     }
       
      stage('Build Docker Image'){         
            sh "docker build -t ${dockerImageName} ."
-      }  
+     }  
    
-      stage('Publish Docker Image'){
-         withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerPWD')]) {
-              sh "docker login -u sameershukur -p ${dockerPWD}"
-         }
-        sh "docker push ${dockerImageName}"
+     stage('Publish Docker Image'){
+     withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerPWD')]) {
+           sh "docker login -u sameershukur -p ${dockerPWD}"
+     	}
+     	   sh "docker push ${dockerImageName}"
       }
 /*      
     stage('Run Docker Image'){
