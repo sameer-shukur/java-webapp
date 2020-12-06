@@ -29,7 +29,7 @@ def call(body)
 			{
 			sh """
 			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
-			mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
+			mvn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
 			"""
 			}
 		//	echo "${current_stage} is SUCCESS!"
