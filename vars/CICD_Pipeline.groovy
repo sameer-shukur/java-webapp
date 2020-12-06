@@ -25,7 +25,7 @@ def call(body)
   
 		stage('Build')
 		  {
-			docker.image('sameershukur/maven-3.6.3').inside
+			docker.image('sameershukur/maven-3.6.3:v1').inside
 			{
 			sh """
 			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
@@ -37,7 +37,7 @@ def call(body)
      
      		stage ('Test')
 		  {
-          		docker.image('sameershukur/maven-3.6.3').inside
+          		docker.image('sameershukur/maven-3.6.3:v1').inside
 			{
 			sh """
 			export MAVEN_OPTS="-Xms256m -Xmx1024m -Xss1024k"
