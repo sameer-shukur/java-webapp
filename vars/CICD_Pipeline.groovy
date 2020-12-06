@@ -15,12 +15,15 @@ def call(body)
   {
    	node('master')
 	  {  
-	//	currentBuild.result = 'SUCCESS'
-	//	print(manager.getResult())
 		stage('SCM Checkout')
 		{
-		git branch: 'main', credentialsId: 'GitCreds', url: 'https://github.com/sameer-shukur/java-webapp.git' 
+			updateGitlabCommitStatus name: STAGE_NAME, state: 'running'
+    			echo '${STAGE_NAME}'
+			checkout scm
+	//	git branch: 'main', credentialsId: 'GitCreds', url: 'https://github.com/sameer-shukur/java-webapp.git' 
 	//	echo "${current_stage}"
+			updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
+    			echo '${STAGE_NAME}'
 		} //End of checkout stage
   
 		stage('Build')
