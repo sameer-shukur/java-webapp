@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
   <!--<artifactId>java-tomcat-maven-example</artifactId>-->
- <artifactId>java-tomcat-maven-example</artifactId>
+ <artifactId>java-webapp</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>CICD Pipeline View</name>
+  <name>CICD Pipeline View with Docker implementation</name>
   <url>http://maven.apache.org</url>  
  <dependencies>
     <dependency>
