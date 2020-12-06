@@ -9,7 +9,8 @@ def call(body)
   def gitURL = config.gitURL
   def repoBranch = config.repoBranch
   def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
-  def failedStage = 'NONE'
+  def failed_stage = 'NONE'
+  def current_stage = getCurrentStageName()
   try
   {
    	node('master')
@@ -19,6 +20,7 @@ def call(body)
 		stage('SCM Checkout')
 		{
 		gitClone "${gitURL}","${repoBranch}"
+		echo "${current_stage}"
 		} //End of checkout stage
   
 		stage('Build')
@@ -30,6 +32,7 @@ def call(body)
 			mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
 			"""
 			}
+			echo "${current_stage} is SUCCESS!"
 		  }   //End of build stage    
      
      		stage ('Test')
@@ -42,11 +45,13 @@ def call(body)
 			sleep 3
 			"""
 		  	}
+			echo "${current_stage} is SUCCESS!"
 		  } //End of test stage
       
 		stage('Build Docker Image')
 		  {         
 			sh "docker build -t ${dockerImageName} ."
+		  	echo "${current_stage} is SUCCESS!"
 		  }  //End of Build docker image
    
 		stage('Publish Docker Image')
@@ -55,6 +60,7 @@ def call(body)
 			sh "docker login -u sameershukur -p ${dockerPWD}" 
 			}
 			sh "docker push ${dockerImageName}" 
+			echo "${current_stage} is SUCCESS!"
 		  } //End of publish docker image
 		/*      
 		    stage('Run Docker Image'){
@@ -75,8 +81,8 @@ def call(body)
   } //End of try node
   catch (Exception err)
     {
-        failedStage = "${STAGE_NAME}"
-        echo "Build failed at ${failedStage}"
+        failed_stage = "${current_stage}"
+        echo "Build failed at ${failed_stage}"
         currentBuild.result = 'FAILURE'
         echo "Error Caught"
     }
