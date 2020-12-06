@@ -9,6 +9,7 @@ def call(body)
   def gitURL = config.gitURL
   def repoBranch = config.repoBranch
   def dockerImageName = 'sameershukur/java-webapp:$BUILD_NUMBER'
+  def failedStage = 'NONE'
   try
   {
    	node('master')
@@ -74,12 +75,8 @@ def call(body)
   } //End of try node
   catch (Exception err)
     {
-        failedStage = "${pipelineStage}"
-        if(!("${BRANCH_NAME}" ==~ "^MR-[0-9]*"))
-        {
-           updateGitlabCommitStatus name: STAGE_NAME, state: 'failed' 
-        }
-        echo "Build failed at ${pipelineStage}"
+        failedStage = "${STAGE_NAME}"
+        echo "Build failed at ${failedStage}"
         currentBuild.result = 'FAILURE'
         echo "Error Caught"
     }
