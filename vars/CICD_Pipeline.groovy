@@ -62,21 +62,20 @@ def call(body)
 			sh "docker push ${dockerImageName}" 
 		//	echo "${current_stage} is SUCCESS!"
 		  } //End of publish docker image
-		/*      
+		      
 		    stage('Run Docker Image'){
 			    def dockerContainerName = 'javadockerapp_$BUILD_NUMBER'
 			    def changingPermission='sudo chmod +x stopscript.sh'
 			    def scriptRunner='sudo ./stopscript.sh'           
 			    def dockerRun= "sudo docker run -p 8082:8080 -d --name ${dockerContainerName} ${dockerImageName}" 
-			    withCredentials([string(credentialsId: 'deploymentserverpwd', variable: 'dpPWD')]) {
-				  sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no sameer@52.76.172.196" 
-				  sh "sshpass -p ${dpPWD} scp -r stopscript.sh sameer@52.76.172.196:/home/sameer" 
-				  sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no sameer@52.76.172.196 ${changingPermission}"
-				  sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no sameer@52.76.172.196 ${scriptRunner}"
-				  sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no sameer@52.76.172.196 ${dockerRun}"
+			    withCredentials([string(credentialsId: 'pwd', variable: 'dppwd')]) {
+				  sh "sshpass -p ${dppwd} ssh -o StrictHostKeyChecking=no sameer@13.71.5.156" 
+				  sh "sshpass -p ${dppwd} scp -r stopscript.sh sameer@13.71.5.156:/home/sameer" 
+				  sh "sshpass -p ${dppwd} ssh -o StrictHostKeyChecking=no sameer@13.71.5.156 ${changingPermission}"
+				  sh "sshpass -p ${dppwd} ssh -o StrictHostKeyChecking=no sameer@13.71.5.156 ${scriptRunner}"
+				  sh "sshpass -p ${dppwd} ssh -o StrictHostKeyChecking=no sameer@13.71.5.156 ${dockerRun}"
 			    }
-		      }  
-		*/         
+		      }           
 	  } //End of node block
   } //End of try node
 catch(err)
