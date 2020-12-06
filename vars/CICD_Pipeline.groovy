@@ -79,10 +79,10 @@ def call(body)
 		*/         
 	  } //End of node block
   } //End of try node
-  catch (Exception err)
-    {
-        echo "Build failed at ${current_stage}"
-        currentBuild.result = 'FAILURE'
-        echo "Error Caught"
-    }
+catch(err)
+	{
+		currentBuild.result = 'FAILURE'
+		//Mail on failure
+		mail bcc: '', body:"${err}", cc: '', from: '', replyTo: '', subject: 'Job failed', to: 'sameer.shukur.m@gmail.com'
+	}
 } //End of body
