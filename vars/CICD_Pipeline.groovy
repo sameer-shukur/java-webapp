@@ -52,7 +52,6 @@ mn ${mavenGoals} -f ${WORKSPACE}/pom.xml -Dmaven.test.skip=true
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no sameer@52.76.172.196 ${scriptRunner}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no sameer@52.76.172.196 ${dockerRun}"
             }
- */ 
       }  
-         
+*/         
   }
